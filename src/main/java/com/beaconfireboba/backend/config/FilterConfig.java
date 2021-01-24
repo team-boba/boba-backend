@@ -25,7 +25,7 @@ public class FilterConfig {
         final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new JwtFilter());
         registrationBean.setInitParameters(Collections.singletonMap("services.auth.login", authServiceLoginUrl));
-//        registrationBean.addUrlPatterns("/book/create");
+
         return registrationBean;
     }
 
