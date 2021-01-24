@@ -60,7 +60,7 @@ create table employee (
     title varchar(200),
     start_date varchar(200),
     end_date varchar(200),
-	avartar varchar(200),
+	avartar varchar(500),
     car varchar(500),
     visa_status_id int not null,
     visa_start_date varchar(200) not null,
