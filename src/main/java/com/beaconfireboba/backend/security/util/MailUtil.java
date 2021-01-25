@@ -1,62 +1,60 @@
 package com.beaconfireboba.backend.security.util;
 
-import com.beaconfireboba.backend.domain.common.Mail;
-import com.beaconfireboba.backend.service.MailService;
+import com.beaconfireboba.backend.config.MailConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 
 
 public class MailUtil {
-    public static Mail mailWithToken (String token, String to){
-        Mail mail = new Mail();
-        String subject = "Register to start your application at BOBA!";
-        String message = "Click this link to register: "+token;
-        mail.setMessage(message);
-        mail.setSubject(subject);
-        mail.setTo(to);
-        return mail;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+    @Autowired
+    private MailConfig mailConfig;
+    private String from = mailConfig.getFrom();
+    //private String generalSubject = "Action required";
+
+    HashMap<String, String> subjects = new HashMap<>();
+    HashMap<String, String> messages = new HashMap<>();
+    messages.put("receipt", "Please upload your OPT receipt");
+    messages.put("983", "Please upload your I-983 form");
+    messages.put("20", "Please upload your I-20");
+    messages.put("EAD", "Please upload your OPT EAD card");
+    subjects.put("983", "Action required");
+    subjects.put("20", "Action required");
+    subjects.put("EAD", "Action required");
+
+
+    public void sendGeneralMail(String to, String subject, String message){
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(from);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
+        try{
+            javaMailSender.send(mailMessage);
+            System.out.println("Mail sent.");
+        }catch (Exception e){
+            System.out.println("Mail failed to send.");
+        }
     }
 
-    public static Mail mailForReceipt (String to) {
-        Mail mail = new Mail();
-        String subject = "Action required";
-        String message = "Please upload your OPT receipt";
-        mail.setMessage(message);
-        mail.setSubject(subject);
-        mail.setTo(to);
-        return mail;
+    public void sendOptionMail (String to, String option){
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(from);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subjects.get(option));
+        mailMessage.setText(messages.get(option));
+        try{
+            javaMailSender.send(mailMessage);
+            System.out.println("Mail sent.");
+        }catch (Exception e){
+            System.out.println("Mail failed to send.");
+        }
     }
 
-    public static Mail mailFor983 (String to) {
-        Mail mail = new Mail();
-        String subject = "Action required";
-        String message = "Please upload your I-983 form";
-        mail.setMessage(message);
-        mail.setSubject(subject);
-        mail.setTo(to);
-        return mail;
-    }
 
-    public static Mail mailFor20 (String to) {
-        Mail mail = new Mail();
-        String subject = "Action required";
-        String message = "Please upload your I-20";
-        mail.setMessage(message);
-        mail.setSubject(subject);
-        mail.setTo(to);
-        return mail;
-    }
-
-    public static Mail messageForEAD (String to) {
-        Mail mail = new Mail();
-        String subject = "Action required";
-        String message = "Please upload your OPT EAD card";
-        mail.setMessage(message);
-        mail.setSubject(subject);
-        mail.setTo(to);
-        return mail;
-    }
 }
