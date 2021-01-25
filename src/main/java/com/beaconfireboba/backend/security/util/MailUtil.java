@@ -4,10 +4,11 @@ import com.beaconfireboba.backend.config.MailConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 
-
+@Component
 public class MailUtil {
 
     @Autowired
