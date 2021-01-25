@@ -8,20 +8,19 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-@Service
 public class MailServiceImpl implements MailService {
     @Autowired
     private JavaMailSender javaMailSender;
+    @Autowired
+    private String from;
 
 
-    public void sendMail(String to, String from, String message, String subject){
-        Mail mail = new Mail();
-        mail.setMessage(message);
+    public void sendMail(Mail mail){
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(from);
-        mailMessage.setTo(to);
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message);
+        mailMessage.setTo(mail.getTo());
+        mailMessage.setSubject(mail.getSubject());
+        mailMessage.setText(mail.getMessage());
         try{
             javaMailSender.send(mailMessage);
             System.out.println("Mail sent.");
