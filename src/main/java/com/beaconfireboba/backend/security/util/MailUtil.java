@@ -15,18 +15,18 @@ public class MailUtil {
     @Autowired
     private MailConfig mailConfig;
     private String from = mailConfig.getFrom();
-    //private String generalSubject = "Action required";
+    static HashMap<String, String[]> mail = new HashMap<>();
 
-    HashMap<String, String> subjects = new HashMap<>();
-    HashMap<String, String> messages = new HashMap<>();
-    messages.put("receipt", "Please upload your OPT receipt");
-    messages.put("983", "Please upload your I-983 form");
-    messages.put("20", "Please upload your I-20");
-    messages.put("EAD", "Please upload your OPT EAD card");
-    subjects.put("983", "Action required");
-    subjects.put("20", "Action required");
-    subjects.put("EAD", "Action required");
-
+    static{
+        String[] receipt = {"Action required", "Please upload your OPT receipt"};
+        String[] i983 = {"Action required", "Please upload your I-983 form"};
+        String[] i20 = {"Action required", "Please upload your I-20"};
+        String[] EAD = {"Action required", "Please upload your OPT EAD card"};
+        mail.put("receipt", receipt);
+        mail.put("i983", i983);
+        mail.put("i20", i20);
+        mail.put("EAD", EAD);
+    }
 
     public void sendGeneralMail(String to, String subject, String message){
         SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -44,10 +44,11 @@ public class MailUtil {
 
     public void sendOptionMail (String to, String option){
         SimpleMailMessage mailMessage = new SimpleMailMessage();
+        String[] message = mail.get(option);
         mailMessage.setFrom(from);
         mailMessage.setTo(to);
-        mailMessage.setSubject(subjects.get(option));
-        mailMessage.setText(messages.get(option));
+        mailMessage.setSubject(message[0]);
+        mailMessage.setText(message[1]);
         try{
             javaMailSender.send(mailMessage);
             System.out.println("Mail sent.");
