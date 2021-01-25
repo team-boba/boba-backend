@@ -33,6 +33,6 @@ public class VisaStatus implements Serializable {
     @Column(name = "create_user")
     private int createdUser;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy = "visa_status")
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "visaStatus")
     private List<Employee> employees = new ArrayList<>();
 }

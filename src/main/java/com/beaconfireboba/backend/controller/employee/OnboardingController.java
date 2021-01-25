@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/employee/onboarding")
 public class OnboardingController {
     private PersonService personService;
@@ -22,12 +22,11 @@ public class OnboardingController {
 
     @GetMapping(value="/person/{id}")
     public PersonResponse getOnboardingPerson(@PathVariable String id, Model model) {
-        System.out.println(id);
         PersonResponse personResponse = new PersonResponse();
 
         int userId = Integer.parseInt(id);
         Person person = personService.getPersonByUserId(userId);
-        System.out.println(person.getFirstName());
+
         if (person == null) {
             prepareResponse(personResponse, false, "cannot get person with this user id");
         } else {
