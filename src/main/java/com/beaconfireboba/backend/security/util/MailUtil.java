@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public class MailUtil {
-    public static Mail messageWithToken (String token, String to){
+    public static Mail mailWithToken (String token, String to){
         Mail mail = new Mail();
         String subject = "Register to start your application at BOBA!";
         String message = "Click this link to register: "+token;
@@ -20,7 +20,7 @@ public class MailUtil {
         return mail;
     }
 
-    public static Mail messageForReceipt (String to) {
+    public static Mail mailForReceipt (String to) {
         Mail mail = new Mail();
         String subject = "Action required";
         String message = "Please upload your OPT receipt";
@@ -30,7 +30,7 @@ public class MailUtil {
         return mail;
     }
 
-    public static Mail messageFor983 (String to) {
+    public static Mail mailFor983 (String to) {
         Mail mail = new Mail();
         String subject = "Action required";
         String message = "Please upload your I-983 form";
@@ -40,7 +40,7 @@ public class MailUtil {
         return mail;
     }
 
-    public static Mail messageFor20 (String to) {
+    public static Mail mailFor20 (String to) {
         Mail mail = new Mail();
         String subject = "Action required";
         String message = "Please upload your I-20";
