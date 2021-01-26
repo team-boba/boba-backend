@@ -34,8 +34,8 @@ public class Employee implements Serializable {
     @Column(name = "end_date")
     private String endDate;
 
-    @Column(name = "avartar")
-    private String avartar;
+    @Column(name = "avatar")
+    private String avatar;
 
     @Column(name = "car")
     private String car;
@@ -51,10 +51,10 @@ public class Employee implements Serializable {
     private String visaEndDate;
 
     @Column(name = "driver_lisence")
-    private String driverLicence;
+    private String driverLicense;
 
     @Column(name = "driver_lisence_expiration_date")
-    private String driverLicenceExpirationDate;
+    private String driverLicenseExpirationDate;
 
     @ManyToOne
     @JoinColumn(name = "house_id")

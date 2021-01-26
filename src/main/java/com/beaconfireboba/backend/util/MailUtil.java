@@ -1,4 +1,4 @@
-package com.beaconfireboba.backend.security.util;
+package com.beaconfireboba.backend.util;
 
 import com.beaconfireboba.backend.config.MailConfig;
 import org.springframework.beans.factory.annotation.Autowired;
