@@ -1,4 +1,4 @@
-package com.beaconfireboba.backend.controller.employee;
+package com.beaconfireboba.backend.controller;
 
 import com.beaconfireboba.backend.domain.S3Response;
 import com.beaconfireboba.backend.domain.common.ServiceStatus;
