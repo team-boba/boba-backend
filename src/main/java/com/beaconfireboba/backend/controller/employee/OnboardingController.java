@@ -3,6 +3,7 @@ package com.beaconfireboba.backend.controller.employee;
 import com.beaconfireboba.backend.domain.employee.person.PersonRequest;
 import com.beaconfireboba.backend.domain.employee.person.PersonResponse;
 import com.beaconfireboba.backend.domain.common.ServiceStatus;
+import com.beaconfireboba.backend.domain.onboarding.OnboardingRequest;
 import com.beaconfireboba.backend.entity.Person;
 import com.beaconfireboba.backend.service.employee.person.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,6 @@ public class OnboardingController {
     }
 
     @PostMapping(value="/person")
-    @ResponseBody
     public PersonResponse setOnboardingPerson(@RequestBody PersonRequest personRequest) {
         PersonResponse personResponse = new PersonResponse();
 
@@ -47,6 +47,11 @@ public class OnboardingController {
         personResponse.setPerson(person);
         prepareResponse(personResponse, true, "");
         return personResponse;
+    }
+
+    @PostMapping(value="/submit")
+    public void submitOnBoardingRequest(@RequestBody OnboardingRequest onboardingRequest) {
+        System.out.println(onboardingRequest);
     }
 
     private void prepareResponse(PersonResponse response, boolean success, String errorMessage) {
