@@ -1,5 +1,6 @@
 package com.beaconfireboba.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ public class Address implements Serializable {
     @Column(name = "state_abbr")
     private String stateAbbr;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "person_id")
     private Person person;

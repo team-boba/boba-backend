@@ -20,6 +20,7 @@ public class ProfileController {
         PersonResponse personResponse = new PersonResponse();
         Person person = this.personService.getPersonByUserId(Integer.parseInt(userId));
         if (person != null) {
+            personResponse.setPerson(person);
             prepareResponse(personResponse, true, "");
         } else {
             prepareResponse(personResponse, false, "No person found.");

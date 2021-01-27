@@ -1,3 +1,4 @@
+drop database if exists backend;
 create database backend;
 use backend;
 

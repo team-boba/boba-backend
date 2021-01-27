@@ -1,5 +1,6 @@
 package com.beaconfireboba.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,6 +29,7 @@ public class Facility implements Serializable {
     @Column(name = "quantity")
     private int quantity;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "house_id")
     private House house;

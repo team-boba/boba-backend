@@ -1,5 +1,6 @@
 package com.beaconfireboba.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ public class VisaStatus implements Serializable {
     @Column(name = "create_user")
     private String createdUser;
 
+    @JsonIgnore
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "visaStatus")
     private List<Employee> employees = new ArrayList<>();
 }
