@@ -1,9 +1,7 @@
 package com.beaconfireboba.backend.service.employee;
 
 import com.beaconfireboba.backend.dao.*;
-import com.beaconfireboba.backend.domain.onboarding.AddressRequest;
-import com.beaconfireboba.backend.domain.onboarding.EmployeeRequest;
-import com.beaconfireboba.backend.domain.onboarding.PersonRequest;
+import com.beaconfireboba.backend.domain.onboarding.*;
 import com.beaconfireboba.backend.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -64,7 +62,7 @@ public class OnboardingService {
     }
 
     @Transactional
-    public boolean saveOnboarding(PersonRequest personRequest, AddressRequest addressRequest, EmployeeRequest employeeRequest) {
+    public boolean saveOnboarding(PersonRequest personRequest, AddressRequest addressRequest, EmployeeRequest employeeRequest, ContactRequest contactRequest, List<PersonalDocumentRequest> personalDocumentRequests) {
         // save application work flow
         ApplicationWorkflow applicationWorkflow = new ApplicationWorkflow();
         applicationWorkflow.setCreatedDate("2021-01-26-00-00");
@@ -74,8 +72,8 @@ public class OnboardingService {
 
         // save employee
         Employee employee = new Employee();
-        VisaStatus visaStatus = visaStatusDAO.getVisaStatusById(1);
-        House house = houseDAO.getHouseById(1);
+        VisaStatus visaStatus = visaStatusDAO.getVisaStatusByName(employeeRequest.getVisaStatus().get("visaType"));
+        House house = houseDAO.getHouseById(1); // hardcode
 
         employee.setTitle(employeeRequest.getTitle());
         employee.setStartDate(employeeRequest.getStartDate());
@@ -120,6 +118,33 @@ public class OnboardingService {
 
         applicationWorkflow.setEmployee(employee);
         applicationWorkflow = applicationWorkflowDAO.setApplicationWorkflow(applicationWorkflow);
+
+        // save personal document
+        for (int i = 0; i < personalDocumentRequests.size(); i++) {
+            PersonalDocumentRequest personalDocumentRequest = personalDocumentRequests.get(i);
+            PersonalDocument personalDocument = new PersonalDocument();
+            personalDocument.setTitle(personalDocumentRequest.getTitle());
+            personalDocument.setPath(personalDocumentRequest.getPath());
+            personalDocument.setCreatedDate("2021-01-26-00-00");
+            personalDocument.setCreateBy(person.getFirstName());
+            personalDocument.setEmployee(employee);
+            personalDocumentDAO.setPersonalDocument(personalDocument);
+        }
+
+        // save contact
+        Contact reference = new Contact();
+        reference.setTitle(contactRequest.getReference().get("title"));
+        reference.setRelationship(contactRequest.getReference().get("relationship"));
+        reference.setReference(true);
+        reference.setPerson(person);
+        contactDAO.setContact(reference);
+
+        Contact emergency = new Contact();
+        emergency.setTitle(contactRequest.getEmergency().get("title"));
+        emergency.setRelationship(contactRequest.getEmergency().get("relationship"));
+        emergency.setEmergency(true);
+        emergency.setPerson(person);
+        contactDAO.setContact(emergency);
 
         return true;
     }

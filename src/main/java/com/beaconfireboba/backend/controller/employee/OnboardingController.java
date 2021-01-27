@@ -23,7 +23,7 @@ public class OnboardingController {
     @PostMapping(value="/submit")
     public void submitOnBoardingRequest(@RequestBody OnboardingRequest onboardingRequest) {
         System.out.println(onboardingRequest);
-        onboardingService.saveOnboarding(onboardingRequest.getPersonRequest(), onboardingRequest.getAddressRequest(), onboardingRequest.getEmployeeRequest());
+        onboardingService.saveOnboarding(onboardingRequest.getPersonRequest(), onboardingRequest.getAddressRequest(), onboardingRequest.getEmployeeRequest(), onboardingRequest.getContactRequest(), onboardingRequest.getPersonalDocumentRequests());
     }
 
 //    @GetMapping(value="/person/{id}")

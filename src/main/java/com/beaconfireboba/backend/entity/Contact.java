@@ -31,14 +31,14 @@ public class Contact implements Serializable {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "is_referrence")
-    private int isReferrence;
+    @Column(name = "is_reference")
+    private boolean isReference;
 
     @Column(name = "is_emergency")
-    private int isEmergency;
+    private boolean isEmergency;
 
     @Column(name = "is_landlord")
-    private int isLandlord;
+    private boolean isLandlord;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "contact")
     private List<House> houses = new ArrayList<>();
