@@ -60,10 +60,10 @@ public class Employee implements Serializable {
     @JoinColumn(name = "house_id")
     private House house;
 
-    @OneToOne(fetch=FetchType.LAZY, mappedBy = "employee")
-    private PersonalDocument personalDocument;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "employee")
+    private List<PersonalDocument> personalDocuments;
 
-    @OneToOne(fetch=FetchType.LAZY, mappedBy = "employee")
+    @OneToOne(mappedBy = "employee")
     private ApplicationWorkflow applicationWorkflow;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "employee")
