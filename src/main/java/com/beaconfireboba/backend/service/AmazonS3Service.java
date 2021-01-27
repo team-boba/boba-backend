@@ -1,11 +1,11 @@
 package com.beaconfireboba.backend.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
+import com.amazonaws.util.IOUtils;
 import com.beaconfireboba.backend.config.AmazonS3Config;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,5 +57,20 @@ public class AmazonS3Service {
     private void uploadFileTos3bucket(String fileName, File file) {
         s3Client.putObject(new PutObjectRequest(amazonS3Config.getBucketName(), fileName, file)
             .withCannedAcl(CannedAccessControlList.PublicRead));
+    }
+
+    @Async
+    public byte[] downloadFile(final String fileName) {
+        byte[] content = null;
+        final S3Object s3Object = s3Client.getObject(amazonS3Config.getBucketName(), fileName);
+        final S3ObjectInputStream stream = s3Object.getObjectContent();
+
+        try {
+            content = IOUtils.toByteArray(stream);
+            s3Object.close();
+        } catch(final IOException ex) {
+            System.out.println("Error downloading file from s3.");
+        }
+        return content;
     }
 }

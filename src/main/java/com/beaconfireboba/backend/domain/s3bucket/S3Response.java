@@ -1,4 +1,4 @@
-package com.beaconfireboba.backend.domain;
+package com.beaconfireboba.backend.domain.s3bucket;
 
 import com.beaconfireboba.backend.domain.common.ServiceStatus;
 import lombok.Getter;
