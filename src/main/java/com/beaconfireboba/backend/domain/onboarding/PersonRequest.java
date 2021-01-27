@@ -19,4 +19,5 @@ public class PersonRequest {
     private String gender;
     private String ssn;
     private String dob;
+    private int userId;
 }
