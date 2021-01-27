@@ -28,8 +28,12 @@ public class PersonDAOImpl extends AbstractHibernateDAO<Person> implements Perso
         Root<Person> root = cq.from(Person.class);
         cq.where(cb.equal(root.get("userId"), userId));
 
-        List<Person> res = session.createQuery(cq).getResultList();
-        return (res == null || res.size() != 1) ? null : res.get(0);
+        Person person = session.createQuery(cq).uniqueResult();
+        person.getContacts().size();
+        person.getEmployee().getPersonalDocuments();
+        person.getEmployee().getFacilityReports();
+        person.getEmployee().getFacilityReportDetails();
+        return person;
     }
 
     @Override

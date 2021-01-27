@@ -19,7 +19,7 @@ public class PersonalDocument implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
