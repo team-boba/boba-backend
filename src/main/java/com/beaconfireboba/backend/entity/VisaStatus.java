@@ -31,7 +31,7 @@ public class VisaStatus implements Serializable {
     private String modificationDate;
 
     @Column(name = "create_user")
-    private int createdUser;
+    private String createdUser;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "visaStatus")
     private List<Employee> employees = new ArrayList<>();

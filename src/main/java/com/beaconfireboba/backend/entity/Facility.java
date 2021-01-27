@@ -28,7 +28,7 @@ public class Facility implements Serializable {
     @Column(name = "quantity")
     private int quantity;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "house_id")
     private House house;
 }

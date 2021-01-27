@@ -25,9 +25,8 @@ public class House implements Serializable {
     @JoinColumn(name = "contact_id")
     private Contact contact;
 
-    @OneToOne
-    @JoinColumn(name = "address")
-    private Address address;
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "number_of_person")
     private int numberOfPerson;
@@ -35,6 +34,6 @@ public class House implements Serializable {
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "house")
     private List<Employee> employees = new ArrayList<>();
 
-    @OneToOne(fetch=FetchType.LAZY, mappedBy = "house")
-    private Facility facility;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "house")
+    private List<Facility> facilities = new ArrayList<>();
 }
