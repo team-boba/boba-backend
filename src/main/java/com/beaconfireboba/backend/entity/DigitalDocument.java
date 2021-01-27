@@ -23,7 +23,7 @@ public class DigitalDocument implements Serializable {
     private String type;
 
     @Column(name = "required")
-    private int required;
+    private boolean required;
 
     @Column(name = "template_location")
     private String templateLocation;
