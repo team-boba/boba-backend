@@ -24,21 +24,16 @@ public class PersonDAOImpl extends AbstractHibernateDAO<Person> implements Perso
     @Override
     public Person getPersonByUserId(int userId) {
         Session session = getCurrentSession();
-        Query query = session.createQuery("from Person where userId=:userId");
-        query.setParameter("userId", userId);
-        Person person = (Person) query.uniqueResult();
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Person> cq = cb.createQuery(Person.class);
+        Root<Person> root = cq.from(Person.class);
+        cq.where(cb.equal(root.get("userId"), userId));
+        Person person = session.createQuery(cq).uniqueResult();
 
-//        CriteriaBuilder cb = session.getCriteriaBuilder();
-//        CriteriaQuery<Person> cq = cb.createQuery(Person.class);
-//        Root<Person> root = cq.from(Person.class);
-//        cq.where(cb.equal(root.get("userId"), userId));
-//
-//        Person person = session.createQuery(cq).uniqueResult();
-        System.out.println(person);
-//        person.getContacts().size();
-//        person.getEmployee().getPersonalDocuments();
-//        person.getEmployee().getFacilityReports();
-//        person.getEmployee().getFacilityReportDetails();
+        person.getContacts().size();
+        person.getEmployee().getPersonalDocuments().size();
+        person.getEmployee().getFacilityReports().size();
+        person.getEmployee().getFacilityReportDetails().size();
         return person;
     }
 

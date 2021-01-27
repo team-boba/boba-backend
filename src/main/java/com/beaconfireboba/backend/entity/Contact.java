@@ -22,8 +22,8 @@ public class Contact implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "person_id")
     private Person person;
 
@@ -42,6 +42,7 @@ public class Contact implements Serializable {
     @Column(name = "is_landlord")
     private boolean isLandlord;
 
+    @JsonIgnore
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "contact")
     private List<House> houses = new ArrayList<>();
 }

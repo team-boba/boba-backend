@@ -20,13 +20,13 @@ public class FacilityReportDetail implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @OneToOne
     @JsonIgnore
+    @OneToOne
     @JoinColumn(name = "report_id")
     private FacilityReport facilityReport;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
 

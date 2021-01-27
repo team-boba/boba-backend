@@ -23,8 +23,8 @@ public class FacilityReport implements Serializable {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne
     @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
