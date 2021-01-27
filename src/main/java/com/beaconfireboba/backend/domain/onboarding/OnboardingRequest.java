@@ -9,4 +9,6 @@ import lombok.ToString;
 @ToString
 public class OnboardingRequest {
     private EmployeeRequest employeeRequest;
+    private PersonRequest personRequest;
+    private AddressRequest addressRequest;
 }
