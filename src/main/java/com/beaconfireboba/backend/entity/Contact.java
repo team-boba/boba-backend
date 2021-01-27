@@ -1,5 +1,6 @@
 package com.beaconfireboba.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Contact implements Serializable {
     private int id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "person_id")
     private Person person;
 
@@ -31,8 +33,8 @@ public class Contact implements Serializable {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "is_referrence")
-    private int isReferrence;
+    @Column(name = "is_reference")
+    private int isReference;
 
     @Column(name = "is_emergency")
     private int isEmergency;
