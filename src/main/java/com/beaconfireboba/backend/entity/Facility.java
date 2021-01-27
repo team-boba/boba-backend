@@ -30,7 +30,6 @@ public class Facility implements Serializable {
     private int quantity;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "house_id")
     private House house;
 }
