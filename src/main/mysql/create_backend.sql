@@ -30,7 +30,7 @@ create table address (
 create table visa_status (
 	id int auto_increment primary key, 
     visa_type varchar(200) not null,
-    active int not null,
+    active boolean default 1,
     modification_date varchar(200) not null,
     create_user varchar(200) not null
 );
@@ -40,9 +40,9 @@ create table contact (
     person_id int not null,
     relationship varchar(200) not null,
     title varchar(200) not null,
-    is_referrence int not null,
-    is_emergency int not null,
-    is_landlord int not null,
+    is_reference boolean default 0,
+    is_emergency boolean default 0,
+    is_landlord boolean default 0,
 	foreign key (person_id) references person(id) on update cascade on delete cascade
 );
 
@@ -60,13 +60,13 @@ create table employee (
     title varchar(200),
     start_date varchar(200),
     end_date varchar(200),
-	avartar varchar(500),
+	avatar varchar(500),
     car varchar(500),
     visa_status_id int not null,
     visa_start_date varchar(200) not null,
     visa_end_date varchar(200) not null,
-    driver_lisence varchar(200),
-    driver_lisence_expiration_date varchar(200),
+    driver_lisense varchar(200),
+    driver_lisense_expiration_date varchar(200),
     house_id int not null,
     foreign key (person_id) references person(id) on update cascade on delete cascade,
     foreign key (visa_status_id) references visa_status(id) on update cascade on delete cascade,
@@ -87,7 +87,7 @@ create table personal_document (
 create table digital_document (
 	id int auto_increment primary key, 
     type varchar(200) not null, 
-    required int not null,
+    required boolean default 0,
     template_location varchar(500) not null,
     description varchar(500) not null
 );
