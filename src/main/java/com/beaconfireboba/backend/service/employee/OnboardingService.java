@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -63,10 +67,12 @@ public class OnboardingService {
 
     @Transactional
     public boolean saveOnboarding(PersonRequest personRequest, AddressRequest addressRequest, EmployeeRequest employeeRequest, ContactRequest contactRequest, List<PersonalDocumentRequest> personalDocumentRequests) {
+        String currentDate = getCurrentDateTime();
+
         // save application work flow
         ApplicationWorkflow applicationWorkflow = new ApplicationWorkflow();
-        applicationWorkflow.setCreatedDate("2021-01-26-00-00");
-        applicationWorkflow.setModificationDate("2021-01-26-00-00");
+        applicationWorkflow.setCreatedDate(currentDate);
+        applicationWorkflow.setModificationDate(currentDate);
         applicationWorkflow.setStatus("pending");
         applicationWorkflow.setType("onboarding");
 
@@ -125,7 +131,7 @@ public class OnboardingService {
             PersonalDocument personalDocument = new PersonalDocument();
             personalDocument.setTitle(personalDocumentRequest.getTitle());
             personalDocument.setPath(personalDocumentRequest.getPath());
-            personalDocument.setCreatedDate("2021-01-26-00-00");
+            personalDocument.setCreatedDate(currentDate);
             personalDocument.setCreateBy(person.getFirstName());
             personalDocument.setEmployee(employee);
             personalDocumentDAO.setPersonalDocument(personalDocument);
@@ -147,5 +153,12 @@ public class OnboardingService {
         contactDAO.setContact(emergency);
 
         return true;
+    }
+
+    public String getCurrentDateTime() {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-h-mm");
+        String strDate = dateFormat.format(date);
+        return strDate;
     }
 }
