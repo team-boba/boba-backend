@@ -2,7 +2,9 @@ package com.beaconfireboba.backend.controller.hr;
 
 import com.beaconfireboba.backend.domain.common.ServiceStatus;
 import com.beaconfireboba.backend.domain.employee.person.PersonResponse;
+import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkFlowRequest;
 import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkflowResponse;
+import com.beaconfireboba.backend.domain.onboarding.OnboardingRequest;
 import com.beaconfireboba.backend.entity.ApplicationWorkflow;
 import com.beaconfireboba.backend.entity.Person;
 import com.beaconfireboba.backend.service.employee.person.PersonService;
@@ -17,6 +19,17 @@ import java.util.List;
 @RequestMapping(value="/hr/hire")
 public class HireController {
     private HireService hireService;
+    private PersonService personService;
+
+    @Autowired
+    public void setHireService(HireService hireService) {
+        this.hireService = hireService;
+    }
+
+    @Autowired
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
+    }
 
     @GetMapping(value="/application-review")
     public ApplicationWorkflowResponse getAllApplications(HttpServletRequest httpRequest) {
@@ -24,49 +37,53 @@ public class HireController {
         List<ApplicationWorkflow> allApplicationWorkflows= this.hireService.getAllApplicationWorkflows();
         if (allApplicationWorkflows != null) {
             applicationWorkflowResponse.setApplicationWorkflows(allApplicationWorkflows);
-            prepareResponse(applicationWorkflowResponse, true, "");
+            prepareApplicationWorkflowResponse(applicationWorkflowResponse, true, "");
         } else {
-            prepareResponse(applicationWorkflowResponse, false, "No application workflow found.");
+            prepareApplicationWorkflowResponse(applicationWorkflowResponse, false, "No application workflow found.");
         }
 
         return applicationWorkflowResponse;
     }
 
     @PostMapping(value = "/application-review/update")
-    public boolean updateApplication(@RequestParam("id") String id, @RequestParam("comment") String comment, @RequestParam("isApproved") String isApproved) {
-        Integer applicationId = Integer.valueOf(id);
+    public boolean updateApplication(@RequestBody ApplicationWorkFlowRequest applicationWorkFlowRequest) {
+        System.out.println(applicationWorkFlowRequest);
+        Integer applicationId = applicationWorkFlowRequest.getId();
         ApplicationWorkflow applicationWorkflow = hireService.getApplicationWorkflowById(applicationId);
-        applicationWorkflow.setComments(comment);
-        if (isApproved.equals("true")) {
-            applicationWorkflow.setStatus("Completed");
-        } else {
-            applicationWorkflow.setStatus("Rejected");
-        }
+
+        applicationWorkflow.setComments(applicationWorkFlowRequest.getComments());
+        applicationWorkflow.setStatus(applicationWorkFlowRequest.getStatus());
         hireService.setApplicationWorkflow(applicationWorkflow);
         return true;
     }
 
     @GetMapping(value="/application-review/{applicationId}")
     public PersonResponse getApplicationDetail(@PathVariable String applicationId) {
-        System.out.println(applicationId);
         PersonResponse personResponse = new PersonResponse();
-//        Person person = this.personService.getPersonByUserId(Integer.parseInt(userId));
-//        if (person != null) {
-//            personResponse.setPerson(person);
-//            prepareResponse(personResponse, true, "");
-//        } else {
-//            prepareResponse(personResponse, false, "No person found.");
-//        }
+
+        // get application
+        Integer appId = Integer.valueOf(applicationId);
+        ApplicationWorkflow applicationWorkflow = hireService.getApplicationWorkflowById(appId);
+
+        // get person
+        int userId = applicationWorkflow.getEmployee().getPerson().getUserId();
+        Person person = personService.getPersonByUserId(userId);
+
+        if (applicationWorkflow != null && person != null) {
+            personResponse.setPerson(person);
+            preparePersonResponse(personResponse, true, "");
+        } else {
+            preparePersonResponse(personResponse, false, "No application or person found.");
+        }
 
         return personResponse;
     }
 
-    private void prepareResponse(ApplicationWorkflowResponse response, boolean success, String errorMessage) {
+    private void prepareApplicationWorkflowResponse(ApplicationWorkflowResponse response, boolean success, String errorMessage) {
         response.setServiceStatus(new ServiceStatus(success ? "SUCCESS" : "FAILED", success, errorMessage));
     }
 
-    @Autowired
-    public void setHireService(HireService hireService) {
-        this.hireService = hireService;
+    private void preparePersonResponse(PersonResponse response, boolean success, String errorMessage) {
+        response.setServiceStatus(new ServiceStatus(success ? "SUCCESS" : "FAILED", success, errorMessage));
     }
 }
