@@ -11,11 +11,17 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public class ApplicationWorkFlowRequest {
+public class ApplicationWorkflowRequest {
     private int id;
     private String createdDate;
     private String modificationDate;
     private String status;
     private String comments;
     private String type;
+
+    private int userId;
+    private String firstName;
+    private String lastName;
+    private String MiddleName;
+    private String email;
 }

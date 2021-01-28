@@ -1,7 +1,6 @@
 package com.beaconfireboba.backend.domain.hr.hire;
 
 import com.beaconfireboba.backend.domain.common.ServiceStatus;
-import com.beaconfireboba.backend.entity.ApplicationWorkflow;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -16,5 +15,5 @@ import java.util.List;
 public class ApplicationWorkflowResponse {
     private ServiceStatus serviceStatus;
 
-    private List<ApplicationWorkflow> applicationWorkflows;
+    private List<ApplicationWorkflowRequest> applicationWorkflowRequests;
 }

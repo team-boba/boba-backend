@@ -2,9 +2,8 @@ package com.beaconfireboba.backend.controller.hr;
 
 import com.beaconfireboba.backend.domain.common.ServiceStatus;
 import com.beaconfireboba.backend.domain.employee.person.PersonResponse;
-import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkFlowRequest;
+import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkflowRequest;
 import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkflowResponse;
-import com.beaconfireboba.backend.domain.onboarding.OnboardingRequest;
 import com.beaconfireboba.backend.entity.ApplicationWorkflow;
 import com.beaconfireboba.backend.entity.Person;
 import com.beaconfireboba.backend.service.employee.person.PersonService;
@@ -34,9 +33,10 @@ public class HireController {
     @GetMapping(value="/application-review")
     public ApplicationWorkflowResponse getAllApplications(HttpServletRequest httpRequest) {
         ApplicationWorkflowResponse applicationWorkflowResponse = new ApplicationWorkflowResponse();
-        List<ApplicationWorkflow> allApplicationWorkflows= this.hireService.getAllApplicationWorkflows();
-        if (allApplicationWorkflows != null) {
-            applicationWorkflowResponse.setApplicationWorkflows(allApplicationWorkflows);
+        List<ApplicationWorkflowRequest> applicationWorkflowRequests = this.hireService.getAllApplicationWorkflowsWithUserId();
+
+        if (applicationWorkflowRequests != null) {
+            applicationWorkflowResponse.setApplicationWorkflowRequests(applicationWorkflowRequests);
             prepareApplicationWorkflowResponse(applicationWorkflowResponse, true, "");
         } else {
             prepareApplicationWorkflowResponse(applicationWorkflowResponse, false, "No application workflow found.");
@@ -46,7 +46,7 @@ public class HireController {
     }
 
     @PostMapping(value = "/application-review/update")
-    public ApplicationWorkflow updateApplication(@RequestBody ApplicationWorkFlowRequest applicationWorkFlowRequest) {
+    public ApplicationWorkflow updateApplication(@RequestBody ApplicationWorkflowRequest applicationWorkFlowRequest) {
         return hireService.updateApplicationWorkflowStatus(applicationWorkFlowRequest);
     }
 

@@ -1,8 +1,7 @@
 package com.beaconfireboba.backend.service.hr;
 
 import com.beaconfireboba.backend.dao.*;
-import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkFlowRequest;
-import com.beaconfireboba.backend.domain.onboarding.*;
+import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkflowRequest;
 import com.beaconfireboba.backend.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,12 +33,17 @@ public class HireService {
     }
 
     @Transactional
+    public List<ApplicationWorkflowRequest> getAllApplicationWorkflowsWithUserId() {
+        return applicationWorkflowDAO.getAllApplicationWorkflowsWithUserId();
+    }
+
+    @Transactional
     public ApplicationWorkflow setApplicationWorkflow(ApplicationWorkflow applicationWorkflow) {
         return applicationWorkflowDAO.setApplicationWorkflow(applicationWorkflow);
     }
 
     @Transactional
-    public ApplicationWorkflow updateApplicationWorkflowStatus(ApplicationWorkFlowRequest applicationWorkFlowRequest) {
+    public ApplicationWorkflow updateApplicationWorkflowStatus(ApplicationWorkflowRequest applicationWorkFlowRequest) {
         Integer applicationId = applicationWorkFlowRequest.getId();
         ApplicationWorkflow applicationWorkflow = getApplicationWorkflowById(applicationId);
 
