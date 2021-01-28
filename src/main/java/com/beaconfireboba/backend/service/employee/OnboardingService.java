@@ -158,7 +158,7 @@ public class OnboardingService {
 
     public String getCurrentDateTime() {
         Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-h-mm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String strDate = dateFormat.format(date);
         return strDate;
     }

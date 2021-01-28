@@ -1,6 +1,7 @@
 package com.beaconfireboba.backend.service.hr;
 
 import com.beaconfireboba.backend.dao.*;
+import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkFlowRequest;
 import com.beaconfireboba.backend.domain.onboarding.*;
 import com.beaconfireboba.backend.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,23 @@ public class HireService {
         return applicationWorkflowDAO.setApplicationWorkflow(applicationWorkflow);
     }
 
+    @Transactional
+    public ApplicationWorkflow updateApplicationWorkflowStatus(ApplicationWorkFlowRequest applicationWorkFlowRequest) {
+        Integer applicationId = applicationWorkFlowRequest.getId();
+        ApplicationWorkflow applicationWorkflow = getApplicationWorkflowById(applicationId);
+
+        applicationWorkflow.setComments(applicationWorkFlowRequest.getComments());
+        applicationWorkflow.setStatus(applicationWorkFlowRequest.getStatus());
+        applicationWorkflow.setModificationDate(getCurrentDateTime());
+
+        setApplicationWorkflow(applicationWorkflow);
+        return applicationWorkflow;
+    }
+
 
     public String getCurrentDateTime() {
         Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-h-mm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String strDate = dateFormat.format(date);
         return strDate;
     }

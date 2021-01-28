@@ -46,15 +46,8 @@ public class HireController {
     }
 
     @PostMapping(value = "/application-review/update")
-    public boolean updateApplication(@RequestBody ApplicationWorkFlowRequest applicationWorkFlowRequest) {
-        System.out.println(applicationWorkFlowRequest);
-        Integer applicationId = applicationWorkFlowRequest.getId();
-        ApplicationWorkflow applicationWorkflow = hireService.getApplicationWorkflowById(applicationId);
-
-        applicationWorkflow.setComments(applicationWorkFlowRequest.getComments());
-        applicationWorkflow.setStatus(applicationWorkFlowRequest.getStatus());
-        hireService.setApplicationWorkflow(applicationWorkflow);
-        return true;
+    public ApplicationWorkflow updateApplication(@RequestBody ApplicationWorkFlowRequest applicationWorkFlowRequest) {
+        return hireService.updateApplicationWorkflowStatus(applicationWorkFlowRequest);
     }
 
     @GetMapping(value="/application-review/{applicationId}")
