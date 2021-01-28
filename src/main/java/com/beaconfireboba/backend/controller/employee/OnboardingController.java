@@ -1,13 +1,10 @@
 package com.beaconfireboba.backend.controller.employee;
 
-import com.beaconfireboba.backend.domain.employee.person.PersonRequest;
-import com.beaconfireboba.backend.domain.employee.person.PersonResponse;
 import com.beaconfireboba.backend.domain.common.ServiceStatus;
 import com.beaconfireboba.backend.domain.onboarding.OnboardingRequest;
-import com.beaconfireboba.backend.entity.Person;
+import com.beaconfireboba.backend.domain.onboarding.OnboardingSubmittedResponse;
 import com.beaconfireboba.backend.service.employee.OnboardingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,41 +18,20 @@ public class OnboardingController {
     }
 
     @PostMapping(value="/submit")
-    public void submitOnBoardingRequest(@RequestBody OnboardingRequest onboardingRequest) {
+    public OnboardingSubmittedResponse submitOnBoardingRequest(@RequestBody OnboardingRequest onboardingRequest) {
         System.out.println(onboardingRequest);
-        onboardingService.saveOnboarding(onboardingRequest.getPersonRequest(), onboardingRequest.getAddressRequest(), onboardingRequest.getEmployeeRequest(), onboardingRequest.getContactRequest(), onboardingRequest.getPersonalDocumentRequests());
+        OnboardingSubmittedResponse onboardingSubmittedResponse = new OnboardingSubmittedResponse();
+        try {
+            int userId = onboardingService.saveOnboarding(onboardingRequest.getPersonRequest(), onboardingRequest.getAddressRequest(), onboardingRequest.getEmployeeRequest(), onboardingRequest.getContactRequest(), onboardingRequest.getPersonalDocumentRequests());
+            onboardingSubmittedResponse.setUserId(userId);
+            prepareOnboardingSubmittedResponse(onboardingSubmittedResponse, true, "");
+        } catch (Exception e) {
+            prepareOnboardingSubmittedResponse(onboardingSubmittedResponse, false, "Error when submitting on boarding application.");
+        }
+        return onboardingSubmittedResponse;
     }
 
-//    @GetMapping(value="/person/{id}")
-//    public PersonResponse getOnboardingPerson(@PathVariable String id, Model model) {
-//        PersonResponse personResponse = new PersonResponse();
-//
-//        int userId = Integer.parseInt(id);
-//        Person person = onboardingService.getPersonByUserId(userId);
-//
-//        if (person == null) {
-//            prepareResponse(personResponse, false, "cannot get person with this user id");
-//        } else {
-//            personResponse.setPerson(person);
-//            prepareResponse(personResponse, true, "");
-//        }
-//
-//        return personResponse;
-//    }
-//
-//    @PostMapping(value="/person")
-//    public PersonResponse setOnboardingPerson(@RequestBody PersonRequest personRequest) {
-//        PersonResponse personResponse = new PersonResponse();
-//
-//        Person person = personRequest.getPerson();
-//        onboardingService.setPerson(person);
-//        personResponse.setPerson(person);
-//        prepareResponse(personResponse, true, "");
-//        return personResponse;
-//    }
-//
-//    private void prepareResponse(PersonResponse response, boolean success, String errorMessage) {
-//        response.setServiceStatus(new ServiceStatus(success ? "SUCCESS" : "FAILED", success, errorMessage));
-//    }
-
+    private void prepareOnboardingSubmittedResponse(OnboardingSubmittedResponse response, boolean success, String errorMessage) {
+        response.setServiceStatus(new ServiceStatus(success ? "SUCCESS" : "FAILED", success, errorMessage));
+    }
 }
