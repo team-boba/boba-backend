@@ -18,4 +18,5 @@ public class EmployeeRequest {
     private Map<String, String> visaStatus;
     private String driverLicense;
     private String driverLicenseExpirationDate;
+    public int houseId;
 }

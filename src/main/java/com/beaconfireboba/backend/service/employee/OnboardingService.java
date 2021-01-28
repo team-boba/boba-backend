@@ -66,7 +66,7 @@ public class OnboardingService {
     }
 
     @Transactional
-    public boolean saveOnboarding(PersonRequest personRequest, AddressRequest addressRequest, EmployeeRequest employeeRequest, ContactRequest contactRequest, List<PersonalDocumentRequest> personalDocumentRequests) {
+    public int saveOnboarding(PersonRequest personRequest, AddressRequest addressRequest, EmployeeRequest employeeRequest, ContactRequest contactRequest, List<PersonalDocumentRequest> personalDocumentRequests) {
         String currentDate = getCurrentDateTime();
 
         // save application work flow
@@ -79,7 +79,7 @@ public class OnboardingService {
         // save employee
         Employee employee = new Employee();
         VisaStatus visaStatus = visaStatusDAO.getVisaStatusByName(employeeRequest.getVisaStatus().get("visaType"));
-        House house = houseDAO.getHouseById(1); // hardcode
+        House house = houseDAO.getHouseById(employeeRequest.getHouseId());
 
         employee.setTitle(employeeRequest.getTitle());
         employee.setStartDate(employeeRequest.getStartDate());
@@ -113,6 +113,7 @@ public class OnboardingService {
         person.setGender(personRequest.getGender());
         person.setSSN(personRequest.getSsn());
         person.setDOB(personRequest.getDob());
+        person.setUserId(personRequest.getUserId());
 
         person = personDAO.setPerson(person);
 
@@ -152,7 +153,7 @@ public class OnboardingService {
         emergency.setPerson(person);
         contactDAO.setContact(emergency);
 
-        return true;
+        return person.getUserId();
     }
 
     public String getCurrentDateTime() {
@@ -161,4 +162,6 @@ public class OnboardingService {
         String strDate = dateFormat.format(date);
         return strDate;
     }
+
+
 }
