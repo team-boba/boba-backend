@@ -5,6 +5,8 @@ import com.beaconfireboba.backend.dao.HouseDAO;
 import com.beaconfireboba.backend.entity.House;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("houseDao")
 public class HouseDAOImpl extends AbstractHibernateDAO<House> implements HouseDAO {
     public HouseDAOImpl() { setClazz(House.class); }
@@ -18,4 +20,7 @@ public class HouseDAOImpl extends AbstractHibernateDAO<House> implements HouseDA
     public House setHouse(House house) {
         return save(house);
     }
+
+    @Override
+    public List<House> getAllHouses() {return findAll();}
 }

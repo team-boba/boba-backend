@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public class HousingService {
     private HouseDAO houseDAO;
@@ -24,4 +26,7 @@ public class HousingService {
     public House setHouse (House house){
         return houseDAO.setHouse(house);
     }
+
+    @Transactional
+    public List<House> getAllHouses() {return houseDAO.getAllHouses();}
 }

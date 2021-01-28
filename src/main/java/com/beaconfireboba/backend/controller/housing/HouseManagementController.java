@@ -10,25 +10,40 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping(value="/employee")
-public class HouseDetailController {
+@RequestMapping(value="/hr/houseManagement")
+public class HouseManagementController {
     private HousingService housingService;
 
-    @GetMapping(value="/profile/{houseId}")
-    public HousingResponse getHouse(@PathVariable String houseId){
+//    @GetMapping(value="/profile/{houseId}")
+//    public HousingResponse getHouse(@PathVariable String houseId){
+//        HousingResponse housingResponse = new HousingResponse();
+//        House house = this.housingService.getHouseById(Integer.parseInt(houseId));
+//        if (house != null){
+//            prepareResponse (housingResponse, true, "");
+//        } else {
+//            prepareResponse(housingResponse, false, "No house found.");
+//        }
+//        return housingResponse;
+//    }
+
+    @GetMapping
+    public HousingResponse getAllHouses(){
         HousingResponse housingResponse = new HousingResponse();
-        House house = this.housingService.getHouseById(Integer.parseInt(houseId));
-        if (house != null){
-            prepareResponse (housingResponse, true, "");
-        } else {
+        List<House> houses = this.housingService.getAllHouses();
+        if (houses != null) {
+            housingResponse.setHouses(houses);
+            prepareResponse(housingResponse, true, "");
+        } else{
             prepareResponse(housingResponse, false, "No house found.");
         }
         return housingResponse;
     }
 
     private void prepareResponse(HousingResponse response, boolean success, String errorMessage){
-        response.setServiceStatus(new ServiceStatus(success ? "SUCESS" : "FAILED", success, errorMessage));
+        response.setServiceStatus(new ServiceStatus(success ? "SUCCESS" : "FAILED", success, errorMessage));
     }
 
     @Autowired

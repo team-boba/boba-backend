@@ -1,11 +1,10 @@
-package com.beaconfireboba.backend.domain.housing;
+package com.beaconfireboba.backend.domain.facilityReport;
 
 import com.beaconfireboba.backend.domain.common.ServiceStatus;
-import com.beaconfireboba.backend.entity.House;
+import com.beaconfireboba.backend.entity.FacilityReport;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import java.util.List;
 
 @Setter
 @Getter
@@ -13,8 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class HousingResponse {
+public class FacilityReportResponse {
     private ServiceStatus serviceStatus;
-    private List<House> houses;
-
+    private FacilityReport facilityReport;
 }
