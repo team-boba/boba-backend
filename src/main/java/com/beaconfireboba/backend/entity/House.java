@@ -25,9 +25,8 @@ public class House implements Serializable {
     @JoinColumn(name = "contact_id")
     private Contact contact;
 
-    @OneToOne
-    @JoinColumn(name = "address")
-    private Address address;
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "number_of_person")
     private int numberOfPerson;

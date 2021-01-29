@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class HousingResponse {
+public class HouseManagementResponse {
     private ServiceStatus serviceStatus;
     private List<House> houses;
 
