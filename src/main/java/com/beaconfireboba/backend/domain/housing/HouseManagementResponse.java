@@ -15,6 +15,6 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class HouseManagementResponse {
     private ServiceStatus serviceStatus;
-    private List<House> houses;
+    private List<HouseManagementRequest> houseManagementRequests;
 
 }

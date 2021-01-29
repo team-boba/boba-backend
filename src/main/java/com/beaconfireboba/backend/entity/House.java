@@ -1,5 +1,6 @@
 package com.beaconfireboba.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,9 +32,10 @@ public class House implements Serializable {
     @Column(name = "number_of_person")
     private int numberOfPerson;
 
+    @JsonIgnore
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "house")
     private List<Employee> employees = new ArrayList<>();
 
-    @OneToOne(fetch=FetchType.LAZY, mappedBy = "house")
-    private Facility facility;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy = "house")
+    private List<Facility> facilities = new ArrayList<>();
 }

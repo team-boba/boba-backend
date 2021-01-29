@@ -1,7 +1,10 @@
 package com.beaconfireboba.backend.domain.housing;
 
+import com.beaconfireboba.backend.entity.Employee;
 import com.beaconfireboba.backend.entity.House;
 import lombok.*;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -21,14 +24,11 @@ public class HouseManagementRequest {
     private Integer numberOfTables;
     private Integer numberOfChairs;
 
-    private String title;
-    private String date;
-    private String status;
-    private String description;
-    private String createdBy;
+//    private String title;
+//    private String date;
+//    private String status;
+//    private String description;
+//    private String createdBy;
 
-    private String name;
-    private String phone;
-    private String email;
-    private String car;
+    private List<EmployeeInfo> employees;
 }
