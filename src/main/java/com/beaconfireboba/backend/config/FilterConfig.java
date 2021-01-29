@@ -20,14 +20,9 @@ public class FilterConfig {
     @Value("${services.auth.register}")
     private String authServiceRegisterUrl;
 
-    @Bean
-    public FilterRegistrationBean<JwtFilter> jwtFilter() {
-        final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new JwtFilter());
-        registrationBean.setInitParameters(Collections.singletonMap("services.auth.login", authServiceLoginUrl));
 
-        return registrationBean;
-    }
+
+
 
     public String getAuthServiceLoginUrl() {
         return authServiceLoginUrl;
