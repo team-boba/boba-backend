@@ -1,5 +1,6 @@
 package com.beaconfireboba.backend.dao;
 
+import com.beaconfireboba.backend.domain.hr.profile.ProfileSummaryRequest;
 import com.beaconfireboba.backend.entity.Employee;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface EmployeeDAO {
     Employee getEmployeeById(int id);
 
     Employee setEmployee(Employee employee);
+
+    public List<ProfileSummaryRequest> getAllEmployeeWithPersonAndVisa();
 }

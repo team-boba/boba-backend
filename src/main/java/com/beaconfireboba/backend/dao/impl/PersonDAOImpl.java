@@ -4,13 +4,11 @@ import com.beaconfireboba.backend.dao.AbstractHibernateDAO;
 import com.beaconfireboba.backend.dao.PersonDAO;
 import com.beaconfireboba.backend.entity.Person;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.List;
 
 @Repository("personDao")
 public class PersonDAOImpl extends AbstractHibernateDAO<Person> implements PersonDAO {
