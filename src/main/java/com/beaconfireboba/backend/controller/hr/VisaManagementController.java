@@ -1,13 +1,11 @@
 package com.beaconfireboba.backend.controller.hr;
 
 import com.beaconfireboba.backend.domain.common.ServiceStatus;
-import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkflowRequest;
-import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkflowResponse;
 import com.beaconfireboba.backend.domain.hr.visaManagement.VisaManagementRequest;
 import com.beaconfireboba.backend.domain.hr.visaManagement.VisaManagementResponse;
-import com.beaconfireboba.backend.entity.ApplicationWorkflow;
+import com.beaconfireboba.backend.domain.hr.visaManagement.VisaManagementUploadRequest;
+import com.beaconfireboba.backend.entity.PersonalDocument;
 import com.beaconfireboba.backend.entity.VisaStatus;
-import com.beaconfireboba.backend.service.hr.HireService;
 import com.beaconfireboba.backend.service.hr.VisaManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -41,10 +39,10 @@ public class VisaManagementController {
         return visaManagementResponse;
     }
 
-//    @PostMapping(value = "/application-review/update")
-//    public ApplicationWorkflow updateApplication(@RequestBody ApplicationWorkflowRequest applicationWorkFlowRequest) {
-//        return hireService.updateApplicationWorkflowStatus(applicationWorkFlowRequest);
-//    }
+    @PostMapping(value = "/uploadDocument")
+    public PersonalDocument addUploadPersonalDocument(@RequestBody VisaManagementUploadRequest visaManagementUploadRequest) {
+        return visaManagementService.addUploadPersonalDocument(visaManagementUploadRequest);
+    }
 
     private void prepareResponse(VisaManagementResponse response, boolean success, String errorMessage) {
         response.setServiceStatus(new ServiceStatus(success ? "SUCCESS" : "FAILED", success, errorMessage));

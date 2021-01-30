@@ -1,12 +1,12 @@
 package com.beaconfireboba.backend.service.hr;
 
-import com.beaconfireboba.backend.dao.ApplicationWorkflowDAO;
 import com.beaconfireboba.backend.dao.EmployeeDAO;
+import com.beaconfireboba.backend.dao.PersonalDocumentDAO;
 import com.beaconfireboba.backend.dao.VisaStatusDAO;
-import com.beaconfireboba.backend.domain.hr.hire.ApplicationWorkflowRequest;
 import com.beaconfireboba.backend.domain.hr.visaManagement.VisaManagementRequest;
-import com.beaconfireboba.backend.entity.ApplicationWorkflow;
+import com.beaconfireboba.backend.domain.hr.visaManagement.VisaManagementUploadRequest;
 import com.beaconfireboba.backend.entity.Employee;
+import com.beaconfireboba.backend.entity.PersonalDocument;
 import com.beaconfireboba.backend.entity.VisaStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +24,8 @@ public class VisaManagementService {
 
     private VisaStatusDAO visaStatusDAO;
 
+    private PersonalDocumentDAO personalDocumentDAO;
+
     @Autowired
     public void setEmployeeDao(EmployeeDAO employeeDAO) {
         this.employeeDAO = employeeDAO;
@@ -34,15 +36,10 @@ public class VisaManagementService {
         this.visaStatusDAO = visaStatusDAO;
     }
 
-//    @Transactional
-//    public ApplicationWorkflow getApplicationWorkflowById(Integer id) {
-//        return applicationWorkflowDAO.getApplicationWorkflowById(id);
-//    }
-//
-//    @Transactional
-//    public List<ApplicationWorkflow> getAllApplicationWorkflows() {
-//        return applicationWorkflowDAO.getAllApplicationWorkflows();
-//    }
+    @Autowired
+    public void setPersonalDocumentDao(PersonalDocumentDAO personalDocumentDAO) {
+        this.personalDocumentDAO = personalDocumentDAO;
+    }
 
     @Transactional
     public List<VisaManagementRequest> getAllOPTEmployeeWithPersonalDocument(VisaStatus visaStatus) {
@@ -54,24 +51,23 @@ public class VisaManagementService {
         return visaStatusDAO.getVisaStatusByName(name);
     }
 
-//    @Transactional
-//    public ApplicationWorkflow setApplicationWorkflow(ApplicationWorkflow applicationWorkflow) {
-//        return applicationWorkflowDAO.setApplicationWorkflow(applicationWorkflow);
-//    }
-//
-//    @Transactional
-//    public ApplicationWorkflow updateApplicationWorkflowStatus(ApplicationWorkflowRequest applicationWorkFlowRequest) {
-//        Integer applicationId = applicationWorkFlowRequest.getId();
-//        ApplicationWorkflow applicationWorkflow = getApplicationWorkflowById(applicationId);
-//
-//        applicationWorkflow.setComments(applicationWorkFlowRequest.getComments());
-//        applicationWorkflow.setStatus(applicationWorkFlowRequest.getStatus());
-//        applicationWorkflow.setModificationDate(getCurrentDateTime());
-//
-//        setApplicationWorkflow(applicationWorkflow);
-//        return applicationWorkflow;
-//    }
+    @Transactional
+    public PersonalDocument addUploadPersonalDocument(VisaManagementUploadRequest visaManagementUploadRequest){
+        PersonalDocument personalDocument = new PersonalDocument();
+        Employee employee = employeeDAO.getEmployeeById(visaManagementUploadRequest.getEmployeeId());
+        if (employee == null) {
+            System.out.println("cannot find the employee");
+            return personalDocument;
+        }
+        personalDocument.setEmployee(employee);
+        personalDocument.setPath(visaManagementUploadRequest.getPath());
+        personalDocument.setTitle("Signed I-983");
+        personalDocument.setCreatedDate(getCurrentDateTime());
+        personalDocument.setCreateBy("hr");
 
+        personalDocumentDAO.setPersonalDocument(personalDocument);
+        return personalDocument;
+    }
 
     public String getCurrentDateTime() {
         Date date = Calendar.getInstance().getTime();

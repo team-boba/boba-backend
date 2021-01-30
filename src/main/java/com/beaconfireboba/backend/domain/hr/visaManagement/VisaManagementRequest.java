@@ -18,11 +18,13 @@ public class VisaManagementRequest {
     private String middleName;
     private String email;
 
-//    private Employee employee;
     private int employeeId;
-    private String visaType;
+    private String nextStep;
+    private String action;
     private String visaStartDate;
     private String visaEndDate;
+    private int dayLeft;
+
     private List<PersonalDocument> personalDocuments;
-//    private List<OPTPersonalDocument> optPersonalDocument;
+
 }
