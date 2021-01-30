@@ -3,6 +3,7 @@ package com.beaconfireboba.backend.service.employee;
 import com.beaconfireboba.backend.dao.*;
 import com.beaconfireboba.backend.domain.onboarding.*;
 import com.beaconfireboba.backend.entity.*;
+import com.beaconfireboba.backend.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class OnboardingService {
     private VisaStatusDAO visaStatusDAO;
     private ApplicationWorkflowDAO applicationWorkflowDAO;
     private HouseDAO houseDAO;
+    private DateUtil dateUtil;
 
     @Autowired
     public void setPersonDao(PersonDAO personDAO) {
@@ -65,9 +67,14 @@ public class OnboardingService {
         this.houseDAO = houseDAO;
     }
 
+    @Autowired
+    public void setDateUtil(DateUtil dateUtil) {
+        this.dateUtil = dateUtil;
+    }
+
     @Transactional
     public int saveOnboarding(PersonRequest personRequest, AddressRequest addressRequest, EmployeeRequest employeeRequest, ContactRequest contactRequest, List<PersonalDocumentRequest> personalDocumentRequests) {
-        String currentDate = getCurrentDateTime();
+        String currentDate = dateUtil.getCurrentDate();
 
         // save application work flow
         ApplicationWorkflow applicationWorkflow = new ApplicationWorkflow();
@@ -155,13 +162,4 @@ public class OnboardingService {
 
         return person.getUserId();
     }
-
-    public String getCurrentDateTime() {
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-h-mm");
-        String strDate = dateFormat.format(date);
-        return strDate;
-    }
-
-
 }
