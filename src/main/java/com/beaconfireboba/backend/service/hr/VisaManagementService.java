@@ -8,6 +8,7 @@ import com.beaconfireboba.backend.domain.hr.visaManagement.VisaManagementUploadR
 import com.beaconfireboba.backend.entity.Employee;
 import com.beaconfireboba.backend.entity.PersonalDocument;
 import com.beaconfireboba.backend.entity.VisaStatus;
+import com.beaconfireboba.backend.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,8 @@ public class VisaManagementService {
 
     private PersonalDocumentDAO personalDocumentDAO;
 
+    private DateUtil dateUtil;
+
     @Autowired
     public void setEmployeeDao(EmployeeDAO employeeDAO) {
         this.employeeDAO = employeeDAO;
@@ -41,6 +44,11 @@ public class VisaManagementService {
         this.personalDocumentDAO = personalDocumentDAO;
     }
 
+    @Autowired
+    public void setDateUtil(DateUtil dateUtil) {
+        this.dateUtil = dateUtil;
+    }
+
     @Transactional
     public List<VisaManagementRequest> getAllOPTEmployeeWithPersonalDocument(VisaStatus visaStatus) {
         return employeeDAO.getAllOPTEmployeeWithPersonalDocument(visaStatus);
@@ -53,6 +61,8 @@ public class VisaManagementService {
 
     @Transactional
     public PersonalDocument addUploadPersonalDocument(VisaManagementUploadRequest visaManagementUploadRequest){
+        String currentDate = dateUtil.getCurrentDate();
+
         PersonalDocument personalDocument = new PersonalDocument();
         Employee employee = employeeDAO.getEmployeeById(visaManagementUploadRequest.getEmployeeId());
         if (employee == null) {
@@ -62,17 +72,10 @@ public class VisaManagementService {
         personalDocument.setEmployee(employee);
         personalDocument.setPath(visaManagementUploadRequest.getPath());
         personalDocument.setTitle("Signed I-983");
-        personalDocument.setCreatedDate(getCurrentDateTime());
+        personalDocument.setCreatedDate(currentDate);
         personalDocument.setCreateBy("hr");
 
         personalDocumentDAO.setPersonalDocument(personalDocument);
         return personalDocument;
-    }
-
-    public String getCurrentDateTime() {
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String strDate = dateFormat.format(date);
-        return strDate;
     }
 }
