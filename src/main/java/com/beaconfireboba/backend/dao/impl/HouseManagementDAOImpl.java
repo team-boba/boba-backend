@@ -4,6 +4,7 @@ import com.beaconfireboba.backend.dao.AbstractHibernateDAO;
 import com.beaconfireboba.backend.dao.HouseManagementDAO;
 import com.beaconfireboba.backend.domain.housing.EmployeeInfo;
 import com.beaconfireboba.backend.domain.housing.HouseManagementRequest;
+import com.beaconfireboba.backend.entity.Employee;
 import com.beaconfireboba.backend.entity.House;
 import com.beaconfireboba.backend.entity.Person;
 import org.hibernate.Session;
@@ -40,9 +41,9 @@ public class HouseManagementDAOImpl extends AbstractHibernateDAO implements Hous
             request.setNumberOfTables(houses.get(i).getFacilities().get(2).getQuantity());
             request.setNumberOfChairs(houses.get(i).getFacilities().get(3).getQuantity());
 
+            int employeeSize = houses.get(i).getEmployees().size();
             List<EmployeeInfo> employeeList = new ArrayList<>();
-            int size = request.getNumberOfPerson();
-            for (int j = 0; j < size; j++){
+            for (int j = 0; j < employeeSize; j++){
                 EmployeeInfo info = new EmployeeInfo();
                 info.setEmployeeId(houses.get(i).getEmployees().get(j).getPerson().getUserId());
                 info.setName(houses.get(i).getEmployees().get(j).getPerson().getFirstName());
