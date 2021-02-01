@@ -44,7 +44,7 @@ public class HouseManagementDAOImpl extends AbstractHibernateDAO implements Hous
             int size = request.getNumberOfPerson();
             for (int j = 0; j < size; j++){
                 EmployeeInfo info = new EmployeeInfo();
-                info.setEmployeeId(houses.get(i).getEmployees().get(j).getId());
+                info.setEmployeeId(houses.get(i).getEmployees().get(j).getPerson().getUserId());
                 info.setName(houses.get(i).getEmployees().get(j).getPerson().getFirstName());
                 info.setPhone(houses.get(i).getEmployees().get(j).getPerson().getCellphone());
                 info.setEmail(houses.get(i).getEmployees().get(j).getPerson().getEmail());

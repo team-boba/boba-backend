@@ -19,16 +19,6 @@ public class HouseManagementService {
         this.houseManagementDAO = houseManagementDAO;
     }
 
-//    @Transactional
-//    public House getHouseById (Integer id){
-//        return houseDAO.getHouseById(id);
-//    }
-//
-//    @Transactional
-//    public House setHouse (House house){
-//        return house.setHouse(house);
-//    }
-
     @Transactional
     public List<HouseManagementRequest> getAllHouses() {return houseManagementDAO.getAllHouseInfo();}
 }

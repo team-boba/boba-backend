@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/hr")
-public class HrController {
+@RequestMapping(value="/hr/houseManagement")
+public class HouseManagementController {
     private HouseManagementService houseManagementService;
 
-    @GetMapping(value="/houseManagement")
+    @GetMapping
     public HouseManagementResponse getAllHouses(HttpServletRequest httpServletRequest){
         HouseManagementResponse houseManagementResponse = new HouseManagementResponse();
         List<HouseManagementRequest> houseManagementRequests = this.houseManagementService.getAllHouses();
