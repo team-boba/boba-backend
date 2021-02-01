@@ -1,7 +1,5 @@
 package com.beaconfireboba.backend.domain.housing;
 
-import com.beaconfireboba.backend.entity.Employee;
-import com.beaconfireboba.backend.entity.House;
 import lombok.*;
 
 import java.util.List;
@@ -14,9 +12,9 @@ import java.util.List;
 public class HouseManagementRequest {
     private Integer houseId;
     private String address;
-    private String landlord;
-    private String landlordPhone;
-    private String landlordEmail;
+    //private String landlord;
+    //private String landlordPhone;
+    //private String landlordEmail;
     private Integer numberOfPerson;
 
     private Integer numberOfBeds;
@@ -30,5 +28,5 @@ public class HouseManagementRequest {
 //    private String description;
 //    private String createdBy;
 
-    private List<EmployeeInfo> employees;
+    private List<EmployeeInfo> employeeInfos;
 }

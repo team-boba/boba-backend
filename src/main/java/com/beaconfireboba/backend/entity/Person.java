@@ -54,9 +54,9 @@ public class Person implements Serializable {
     @OneToMany(fetch=FetchType.LAZY, mappedBy = "person")
     private List<Contact> contacts = new ArrayList<>();
 
-    @OneToOne(fetch=FetchType.LAZY, mappedBy = "person")
+    @OneToOne(mappedBy = "person")
     private Address address;
 
-    @OneToOne(fetch=FetchType.LAZY, mappedBy = "person")
+    @OneToOne(mappedBy = "person")
     private Employee employee;
 }

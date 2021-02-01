@@ -4,6 +4,7 @@ import com.beaconfireboba.backend.dao.AbstractHibernateDAO;
 import com.beaconfireboba.backend.dao.PersonDAO;
 import com.beaconfireboba.backend.entity.Person;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -27,9 +28,15 @@ public class PersonDAOImpl extends AbstractHibernateDAO<Person> implements Perso
         CriteriaQuery<Person> cq = cb.createQuery(Person.class);
         Root<Person> root = cq.from(Person.class);
         cq.where(cb.equal(root.get("userId"), userId));
+        Person person = session.createQuery(cq).uniqueResult();
+        if (person == null) return null;
 
-        List<Person> res = session.createQuery(cq).getResultList();
-        return (res == null || res.size() != 1) ? null : res.get(0);
+        person.getContacts().size();
+        person.getEmployee().getPersonalDocuments().size();
+        person.getEmployee().getHouse().getFacilities().size();
+        person.getEmployee().getFacilityReports().size();
+        person.getEmployee().getFacilityReportDetails().size();
+        return person;
     }
 
     @Override
