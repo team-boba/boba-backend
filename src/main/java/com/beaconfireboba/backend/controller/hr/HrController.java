@@ -17,18 +17,6 @@ import java.util.List;
 public class HrController {
     private HouseManagementService houseManagementService;
 
-//    @GetMapping(value="/profile/{houseId}")
-//    public HousingResponse getHouse(@PathVariable String houseId){
-//        HousingResponse housingResponse = new HousingResponse();
-//        House house = this.housingService.getHouseById(Integer.parseInt(houseId));
-//        if (house != null){
-//            prepareResponse (housingResponse, true, "");
-//        } else {
-//            prepareResponse(housingResponse, false, "No house found.");
-//        }
-//        return housingResponse;
-//    }
-
     @GetMapping(value="/houseManagement")
     public HouseManagementResponse getAllHouses(HttpServletRequest httpServletRequest){
         HouseManagementResponse houseManagementResponse = new HouseManagementResponse();

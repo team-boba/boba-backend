@@ -23,9 +23,7 @@ public class HouseManagementDAOImpl extends AbstractHibernateDAO implements Hous
         Session session = getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<House> cq = cb.createQuery(House.class);
-        CriteriaQuery<Person> cqPerson = cb.createQuery(Person.class);
         Root<House> root = cq.from(House.class);
-        Root<Person> rootPerson = cqPerson.from(Person.class);
         List<House> houses = session.createQuery(cq).getResultList();
 
         if (houses == null) return null;
@@ -35,10 +33,6 @@ public class HouseManagementDAOImpl extends AbstractHibernateDAO implements Hous
             HouseManagementRequest request = new HouseManagementRequest();
             request.setHouseId(houses.get(i).getId());
             request.setAddress(houses.get(i).getAddress());
-
-            //request.setLandlord(houses.get(i).getContact().getTitle());
-            //request.setLandlordPhone(houses.get(i).getContact().getPerson().getCellphone());
-            //request.setLandlordEmail(houses.get(i).getContact().getPerson().getEmail());
             request.setNumberOfPerson(houses.get(i).getNumberOfPerson());
 
             request.setNumberOfBeds(houses.get(i).getFacilities().get(0).getQuantity());
@@ -50,9 +44,6 @@ public class HouseManagementDAOImpl extends AbstractHibernateDAO implements Hous
             int size = request.getNumberOfPerson();
             for (int j = 0; j < size; j++){
                 EmployeeInfo info = new EmployeeInfo();
-                //int id = houses.get(i).getEmployees().get(j).getId();
-                //cqPerson.where(cb.equal(rootPerson.get("user_id"), id));
-                //List<Person> personList = session.createQuery(cqPerson).getResultList();
                 info.setEmployeeId(houses.get(i).getEmployees().get(j).getId());
                 info.setName(houses.get(i).getEmployees().get(j).getPerson().getFirstName());
                 info.setPhone(houses.get(i).getEmployees().get(j).getPerson().getCellphone());
