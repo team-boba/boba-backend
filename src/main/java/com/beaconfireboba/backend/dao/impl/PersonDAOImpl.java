@@ -4,6 +4,7 @@ import com.beaconfireboba.backend.dao.AbstractHibernateDAO;
 import com.beaconfireboba.backend.dao.PersonDAO;
 import com.beaconfireboba.backend.entity.Person;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;

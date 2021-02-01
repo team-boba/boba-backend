@@ -33,9 +33,9 @@ public class House implements Serializable {
     private int numberOfPerson;
 
     @JsonIgnore
-    @OneToMany(fetch=FetchType.LAZY, mappedBy = "house")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "house")
     private List<Employee> employees = new ArrayList<>();
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy = "house")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "house")
     private List<Facility> facilities = new ArrayList<>();
 }

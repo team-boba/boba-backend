@@ -7,7 +7,7 @@ import com.beaconfireboba.backend.entity.Facility;
 import com.beaconfireboba.backend.entity.House;
 import org.springframework.stereotype.Repository;
 
-@Repository("failityDao")
+@Repository("facilityDao")
 public class FacilityDAOImpl extends AbstractHibernateDAO<Facility> implements FacilityDAO {
     public FacilityDAOImpl() { setClazz(Facility.class); }
 
