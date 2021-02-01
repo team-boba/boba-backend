@@ -10,7 +10,7 @@ public class DateUtil {
     private final SimpleDateFormat formatter;
 
     public DateUtil() {
-        formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
+        formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     }
 
     public String getCurrentDate() {
