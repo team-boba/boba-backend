@@ -7,7 +7,10 @@ import com.beaconfireboba.backend.domain.hr.visaManagement.VisaManagementRequest
 import com.beaconfireboba.backend.entity.Employee;
 import com.beaconfireboba.backend.entity.PersonalDocument;
 import com.beaconfireboba.backend.entity.VisaStatus;
+import com.beaconfireboba.backend.util.DateUtil;
+import com.beaconfireboba.backend.util.OptStatusUtil;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -19,6 +22,13 @@ import java.util.concurrent.TimeUnit;
 
 @Repository("employeeDao")
 public class EmployeeDAOImpl extends AbstractHibernateDAO<Employee> implements EmployeeDAO {
+    private OptStatusUtil optStatusUtil;
+
+    @Autowired
+    public void setOptStatusUtil(OptStatusUtil optStatusUtil) {
+        this.optStatusUtil = optStatusUtil;
+    }
+
     public EmployeeDAOImpl() { setClazz(Employee.class); }
 
     @Override
@@ -86,89 +96,18 @@ public class EmployeeDAOImpl extends AbstractHibernateDAO<Employee> implements E
             tmp.setUserId(employee.getPerson().getUserId());
             tmp.setEmail(employee.getPerson().getEmail());
 
-            int dayLeft = computeOPTExpireDayLeft(employee.getVisaEndDate());
+            int dayLeft = optStatusUtil.computeOPTExpireDayLeft(employee.getVisaEndDate());
             tmp.setDayLeft(dayLeft);
 
             employee.getPersonalDocuments().size();
-            optDocAndStatus result = checkOPTDoc(employee.getPersonalDocuments(), dayLeft);
-            List<PersonalDocument> personalDocuments = result.doc;
+            optStatusUtil.checkOPTDoc(employee.getPersonalDocuments(), dayLeft);
+            List<PersonalDocument> personalDocuments = optStatusUtil.doc;
             tmp.setPersonalDocuments(personalDocuments);
-            tmp.setNextStep(result.nextStep);
-            tmp.setAction(result.action);
+            tmp.setNextStep(optStatusUtil.nextStep);
+            tmp.setAction(optStatusUtil.action);
             res.add(tmp);
         }
 
-        return res;
-    }
-
-    public static class optDocAndStatus {
-        public static List<PersonalDocument> doc;
-        public static String nextStep;
-        public static String action;
-    }
-
-    // return all opt related doc, check the opt status
-    public optDocAndStatus checkOPTDoc (List<PersonalDocument> docList, int dayLeft) {
-        Map<String, Integer> optMap = new HashMap<>();
-        optMap.put("OPT Receipt", 1);
-        optMap.put("OPT EAD", 2);
-        optMap.put("I-983", 3);
-        optMap.put("Signed I-983", 4);
-        optMap.put("I-20", 5);
-        optMap.put("OPT STEM Receipt", 6);
-        optMap.put("OPT STEM EAD", 7);
-
-        Map<Integer, String> nextStepMap = new HashMap<>();
-        nextStepMap.put(0, "OPT Receipt");
-        nextStepMap.put(1, "OPT EAD");
-        nextStepMap.put(2, "I-983");
-        nextStepMap.put(3, "Signed I-983");
-        nextStepMap.put(4, "I-20");
-        nextStepMap.put(5, "OPT STEM Receipt");
-        nextStepMap.put(6, "OPT STEM EAD");
-        nextStepMap.put(7, "All Completed");
-
-        List<PersonalDocument> doc = new ArrayList<>();
-        int status = 0;
-
-        for (int i = 0; i < docList.size(); i++) {
-            String docName = docList.get(i).getTitle();
-            if (optMap.containsKey(docName)) {
-                doc.add(docList.get(i));
-
-                if (optMap.get(docName) > status) {
-                    status = optMap.get(docName);
-                }
-            }
-        }
-        optDocAndStatus res = new optDocAndStatus();
-        optDocAndStatus.doc = doc;
-        optDocAndStatus.nextStep = nextStepMap.get(status);
-        if (status == 0 || (status == 2 && dayLeft <= 100) || status == 4 || status == 6) {
-            optDocAndStatus.action = "Send Notification";
-        } else if (status == 3) {
-            optDocAndStatus.action = "Sign I-983";
-        } else {
-            optDocAndStatus.action = "nothing needed";
-        }
-        return res;
-    }
-
-    public int computeOPTExpireDayLeft (String visaEndDate) {
-        int res = 0;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-            Date endDate = sdf.parse(visaEndDate);
-            Date currentDate = Calendar.getInstance().getTime();
-
-            long diffInMillies = endDate.getTime() - currentDate.getTime();
-            if (diffInMillies > 0) {
-                long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-                res = (int) diff;
-            }
-        } catch (Exception e) {
-            System.out.println("cannot parse visaEndDate to yyyy-MM-dd format");
-        }
         return res;
     }
 
